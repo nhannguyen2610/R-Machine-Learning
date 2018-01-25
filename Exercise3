@@ -1,0 +1,83 @@
+#Question 2
+dt = read.table('E3COMPR.txt', sep = '\t', header = TRUE)
+attach(dt)
+head(dt); tail(dt)
+any(is.na(dt))  #to check NA in dataset
+
+#2a: Calculate the sample means and standard deviations of the 
+#compressive strengths (separate for 2 samples)
+colMeans(dt, na.rm = TRUE) #means
+colMeans(na.omit(dt))  #another way to calculate means 
+
+(var = c(var(CONCR1, na.rm = TRUE), var(CONCR2))) #variances
+sqrt(var)  #standard deviation
+
+#plot histograms of data sets
+par(mfrow = c(1,2))
+hist(CONCR1)
+hist(CONCR2)
+
+#2-sample t-test
+t.test(CONCR1, CONCR2, alternative = 'two.sided', conf.level = 0.95)
+# since the p-value is 10^(-7) < alpha = .05, we reject the null hypothesis.
+
+#2c: general assumptions of 2 sample t-test are:
+# - normal distribution
+# - iid 
+# - (x_i,y_i) should be independent
+# - n > 25 and m > 25, then the t-test reliable. 
+
+
+#Question 3:
+salary.dt = read.table('E3SALARY.txt', sep = '\t', header = TRUE)
+attach(salary.dt)
+head(salary.dt)
+names(salary.dt)  #check names of dataset columns
+
+# calculate sample mean, standard deviation, minimum, maximum,
+# using summary to find min, max, median v.v for both female and male 
+summary(salary.dt)
+(var = diag(var(salary.dt)))  # variance
+sqrt(var) # sd
+
+#Draw box plots of the data sets.
+boxplot(FEMALE, MALE, names = c('Female', 'Male'), main = 'Box plot of Dataset')
+
+# Method 1: 90% bootstrap confidence interval of the mean salary. 
+require('boot')  # or library(boot)
+
+# create function for boot() 
+mean.fun = function(dat, idx) mean(dat[idx], na.rm = TRUE)
+# note that indices is required for technical reasons 
+# dat (data) argument is the orginal sample
+# and indices is used to choose a sample of the original data 'dat'
+
+# bootstrap for female
+boot.fe = boot(FEMALE, mean.fun, R = 1000, sim = "ordinary")
+boot.fe
+plot(boot.fe)
+boot.ci(boot.fe, conf = 0.9)
+
+# bootstrap for male
+boot.ma = boot(MALE, mean.fun, R = 1000, sim = "ordinary")
+boot.ma
+plot(boot.ma)
+boot.ci(boot.ma, conf = 0.9)
+
+# Paired t-test to test the equality of the salaries of men
+# and women. (Use two tailed alternative hypothesis.)
+t.test(FEMALE, MALE, alternative = 'two.sided', paired = TRUE)
+# p-value is .03 
+
+# two sample t-test to test the equality of the salaries of
+# men and women. (Use two tailed alternative hypothesis.)
+t.test(FEMALE, MALE, alternative = 'two.sided')
+# p-value is .2 
+
+# the data is stratified, so the data pairs (x_i,y_i) are not independent. 
+# which violates iid assumption of the two sample t-test. But paired t-test
+# does not require iid of data pairs => rely on paired t-test result. 
+# Paired t-test is more trustworthy. 
+# However, the sample size is quite small n = 8, thus not statistically significant. 
+
+       
