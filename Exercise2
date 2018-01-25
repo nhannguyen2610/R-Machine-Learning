@@ -1,0 +1,42 @@
+#Exercise 2
+#Question 2
+POINTS = c(6,0,0,2,1,0,5,5,0,6,5,0,1,5,6,5,1,6,6,0)
+
+#2a
+fd_table = table(factor(POINTS, level = 0:6)) # adding levels to data
+bar_plot = barplot(fd_table, main = 'Frequency Distribution Barplot')
+
+#2b: sample mean, standard deviation, variance, minimum, maximum, median and mode
+summary(POINTS)
+sd(POINTS)
+var(POINTS)
+
+# make a mod func
+mod_func = function(x) {
+  names(x[x==max(x)]) 
+}
+mod_func(fd_table)
+
+#Question 3
+dt = read.csv("E2SUNTAN.txt", header=T) #or use direct URL link
+attach(dt)
+
+#3a: Group data into class interval
+br = seq(range(WEIGHTS)[1], range(WEIGHTS)[2], by = 5) #creating intervals 
+dt.cut = cut(dt[,1],br, right = F)
+dt.table = table(dt.cut)
+barplot(dt.table, main = 'Frequency Distribution')
+
+#3b:sample mean, standard deviation, variance, minimum, maximum, median, median absolute deviation,
+#mode, skewness and kurtosis.
+summary(dt)
+sd(WEIGHTS); var(WEIGHTS)
+mad(WEIGHTS)
+mod_func(dt.table)
+
+library(e1071) # load e1071 lib to calculate skewness and kurtosis
+skewness(WEIGHTS)
+kurtosis(WEIGHTS)
+
+
+
