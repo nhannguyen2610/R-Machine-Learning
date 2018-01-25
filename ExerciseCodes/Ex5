@@ -1,0 +1,19 @@
+
+# 2: prop-test (Use two tailed alternative hypothesis.)
+# find p-value for proportion test for n = 50, x= number of success events
+prop.test(3, n=50, p=0.03, alternative = 'two.sided', conf.level = 0.95)
+
+#prop test for n =350
+prop.test(21, n=350, p=0.03, alternative = 'two.sided', conf.level = 0.95) 
+
+# 3: In poll 1, the sample size was 1000 and 200 out of the 1000 eligible voters
+# reported that they support the party BBB (Ben’s Bad Boys). In poll 2,
+# that was conducted later, the sample size was 1120 and 200 out of the
+# 1120 eligible voters reported that they support BBB. Based on these
+# polls, can one conclude that support of BBB has decreased?
+prop.test(200, n=1000, alternative = 'two.sided', conf.level = 0.95)
+
+# can't one conclude that support of BBB has decreased. According to the prop test of poll 1,
+# 95% CI is from 0.1759 to 0.2264 and the proportion of poll 2 at 0.1786 is within the range. 
+# therefore, the true population parameter can be varied between that range. 
+
