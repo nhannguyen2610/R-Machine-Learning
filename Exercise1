@@ -1,0 +1,32 @@
+#2b
+x = rnorm(100) 
+#2c
+mean.x = mean(x)
+sd.x = sd(x)
+
+#2d: create 3 random sample
+s1 = rnorm(20,1,sqrt(3))
+s2 = rnorm(20,1,sqrt(3))
+s3 = rnorm(20,1,sqrt(3))
+s123 = data.frame(s1,s2,s3)
+
+#2e
+mu = unname(c(colMeans(s123))) #means
+sigmas = unname(sqrt(diag(var(s123)))) #sd
+
+#Other way of doing 2e
+bcd = data.frame(s1,s2,s3)
+means = colMeans(bcd) 
+vars = diag(var(bcd)) 
+
+#3a
+height_sample = sample(150:180,15)
+#3b
+hist(height_sample)
+#3c
+eye_color_sample = sample(1:4,15, replace = T)
+#making piechart
+freq_table = unname(table(eye_color_sample))
+lbls =  c("Black","Blue", "Brown","Green")
+pie(freq_table,labels = freq_table, main = 'Eye color sample',col=lbls, clockwise = TRUE)
+
