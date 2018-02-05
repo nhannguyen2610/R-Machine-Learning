@@ -1,3 +1,7 @@
+# 1:liking coffee.
+# Elementary school: 11/52 (+), High school: 42/68 (+)
+# Run prop-test to check if there is a difference between elementary and high school
+prop.test(x=c(11,42),n=c(52,68),alternative = 'two.sided', conf.level = 0.95)
 
 # 2: prop-test (Use two tailed alternative hypothesis.)
 # find p-value for proportion test for n = 50, x= number of success events
